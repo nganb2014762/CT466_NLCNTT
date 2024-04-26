@@ -15,34 +15,52 @@ require_once __DIR__ . '../../partials/connect.php';
         </div>
         <div class="row gy-lg-5 align-items-center">
             <div class="col-lg-6 order-lg-1 text-center text-lg-start">
-                <div class="pt-3 pb-3">
-                    <h2 class="position-relative d-inline-block">BORN IN VIETNAM</h2>
-                </div>
-                <p class="lead text-muted px-3">At FASHION, we easily mix fabrics, cuts and seasons. Leather with
-                    patterns, tight and loose, summer in winter and winter in sum- mer.
-                    A mix of styles inspired by these women who embody FASHION. Hyperactive and free, they are fearless
-                    and have no limit. They wear whatever they want, whenever they want. <br>
-                    From 2023 and the opening of its first VIETNAM boutique in CANTHO, FASHION has become a brand in its
-                    own right, desired and sought-after by all women of major cities.</p>
+
+                <p class="lead text-muted px-6">At WATCH, we take pride in being the trusted destination for
+                    enthusiasts and aficionados of the world of time. With a mission to make every moment special,
+                    we offer a diverse and stunning collection of wristwatches from leading brands worldwide.
+                    <br>
+
+                    At WATCH, we are more than just a place to shop; we are a destination for time
+                    enthusiasts. Our mission is to provide customers with the best online shopping experience,
+                    delivering quality products and exceptional customer service.
+
+                    <br>
+                    With an unwavering passion, we strive to become the premier destination for time enthusiasts
+                    worldwide. We are committed to offering the widest selection, the best value, and the finest
+                    customer service to satisfy every customer.
+
+                    <br>
+                    Our team is not just staff; they are time enthusiasts dedicated to our mission. We take pride in
+                    having a team of professionally trained and experienced experts who are always ready to assist
+                    and advise you in selecting the perfect timepiece
+                </p>
+                <button class="btn mx-4 my-4"><a href="about.php" class="text-decoration-none text-dark">Read
+                        more</a></button>
             </div>
 
-            <div class="col-lg-6 order-lg-0 pt-3 pb-3">
-                <img src="img/poster/11.jpg" alt="" class="img-fluid">
+            <div class="col-lg-4 order-lg-0 pt-3 pb-3">
+                <img src="img/poster/p4.png" alt="" class="img-fluid" style="height: 600px;">
+                <!-- Thay đổi giá trị 200px để điều chỉnh chiều cao mong muốn -->
             </div>
+
         </div>
         <div class="container title text-center mt-3 pt-5">
-            <h2 class="position-relative d-inline-block">Why choose us?<br>What we provide?</h2>
-            <hr class="mx-auto">
+
+
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/shop/about.png" alt="">
                 <h3>Why choose us?</h3>
-                <p>Welcome to FASHION!
-                    We are proud to be the premier destination for fashion enthusiasts in FASHION. Here, we offer a
-                    wide range of fashion products, from everyday fashion collections to special occasion ensembles.
-                    We always value and ensure customer satisfaction. Our team is ready to assist you in the
-                    shopping process and provide insights into the latest fashion trends.
+                <p>Discover why WATCH is your ultimate destination for luxury timepieces. With a
+                    meticulously curated selection from renowned brands worldwide, each watch undergoes stringent
+                    quality checks to ensure authenticity and durability. Our dedicated team is committed to delivering
+                    exceptional service, from browsing to after-sales support, making your experience seamless and
+                    satisfying. Enjoy competitive pricing without compromising on quality, alongside secure transactions
+                    powered by the latest encryption technology. Join our vibrant community of watch enthusiasts and
+                    explore flexible payment options, including convenient installment plans. With fast and reliable
+                    shipping worldwide, WATCH offers everything you need to elevate your watch collection.
 
                 </p>
                 <a href="contact.php" class="btn">contact us</a>
@@ -51,11 +69,16 @@ require_once __DIR__ . '../../partials/connect.php';
             <div class="col-sm-6">
                 <img src="img/shop/about2.png" alt="">
                 <h3>What we provide?</h3>
-                <p>We are committed to providing our customers with the finest shopping experience. With diversity in
-                    styles, materials, and colors, we hope to cater to every taste and need.
-                    Thank you for choosing us as your fashion partner.
-                    We look forward to helping you express your unique style and make every day a fashion statement.</p>
-                <a href="shop.php" class="btn">our shop</a>
+                <p>Explore the pinnacle of luxury watch shopping at WATCH. With our meticulously curated
+                    selection from prestigious brands worldwide, each watch undergoes rigorous quality checks for
+                    authenticity, durability, and precision. Our dedicated team ensures exceptional service from
+                    browsing to after-sales support, prioritizing your satisfaction. Benefit from competitive pricing
+                    without compromising quality, alongside secure transactions powered by the latest encryption
+                    technology. Engage with our vibrant community of watch enthusiasts and enjoy flexible payment
+                    options, including convenient installment plans. Experience fast and reliable worldwide shipping,
+                    making your dream watch just a click away. Discover the ultimate in luxury watch shopping with WATCH
+                    today.</p>
+                <a href="index.php" class="btn">our shop</a>
             </div>
         </div>
 
@@ -63,52 +86,93 @@ require_once __DIR__ . '../../partials/connect.php';
             <h2 class="position-relative d-inline-block">Clients reviews</h2>
             <hr class="mx-auto">
         </div>
-
         <div class="row">
-            <div class="col-6 col-md-4">
-                <h4>Jennie</h4>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
+            <div class="col-12">
+                <div class="review">
+                    <img src="img/account/u2.jpg" alt="Jennie's Avatar"
+                        style="width: 50px; height: auto; margin-right: 5px;">
+                    <h4 style="display: inline-block;">Jennie</h4>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>I'm absolutely in love with my new dress from FASHION! The quality is outstanding and it fits
+                        perfectly. Can't wait to shop here again!</p>
                 </div>
-                <p>I'm absolutely in love with my new dress from FASHION! The quality is outstanding and it fits
-                    perfectly.
-                    Can't wait to shop here again!</p>
             </div>
 
-            <div class="col-6 col-md-4">
-                <h4>Jimmy</h4>
-
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
+            <div class="col-12">
+                <div class="review">
+                    <img src="img/account/u1.jpg" alt="Jennie's Avatar"
+                        style="width: 50px; height: auto; margin-right: 5px;">
+                    <h4 style="display: inline-block;">Taehyung</h4>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>As a collector, I'm always searching for unique timepieces, and this watch definitely stands out.
+                        The attention to detail is impressive, and it's become a prized piece in my collection.</p>
                 </div>
-                <p>The customer service at FASHION is top-notch! They were so helpful in helping me find the perfect
-                    outfit
-                    for
-                    event. Thank you!</p>
             </div>
 
-            <div class="col-6 col-md-4">
-                <h4>Robert</h4>
-
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
+            <div class="col-12">
+                <div class="review">
+                    <img src="img/account/u5.png" alt="Jennie's Avatar"
+                        style="width: 50px; height: auto; margin-right: 5px;">
+                    <h4 style="display: inline-block;">Jackson</h4>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>I've been eyeing this watch for months, and finally decided to treat myself. It's even more
+                        stunning in person, and I've received so many compliments on it. Worth every penny!</p>
                 </div>
-                <p>Such a great selection of styles at FASHION. I went in looking for shirt and ended up finding so much
-                    more.
-                    Highly recommend!</p>
             </div>
+
+            <div class="col-12">
+                <div class="review">
+                    <img src="img/account/u3.jpg" alt="Jennie's Avatar"
+                        style="width: 50px; height: auto; margin-right: 5px;">
+                    <h4 style="display: inline-block;">Lisa</h4>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>I bought this watch as a gift for my husband, and he hasn't stopped wearing it since. It's
+                        stylish, durable, and versatile. He loves it!</p>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="review">
+                    <img src="img/account/u4.jpg" alt="Jennie's Avatar"
+                        style="width: 50px; height: auto; margin-right: 5px;">
+                    <h4 style="display: inline-block;">Jisoo</h4>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>This watch exceeded my expectations! The craftsmanship is superb, and it feels luxurious on my
+                        wrist. Couldn't be happier with my purchase.</p>
+                </div>
+            </div>
+
+
         </div>
 
     </div>

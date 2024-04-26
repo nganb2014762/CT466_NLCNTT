@@ -44,7 +44,6 @@ if (isset($_POST['add_to_cart'])) {
 }
 ;
 
-
 if (isset($_POST['send'])) {
    if (isset($_SESSION['user_id'])) {
       $user_id = $_SESSION['user_id'];
@@ -95,7 +94,7 @@ if (isset($_POST['send'])) {
    <section id="quick-view" class="pt-5">
       <div class="container">
          <div class="title text-center mt-5 pt-5">
-            <h2 class="position-relative d-inline-block">Features Product</h2>
+            <h2 class="position-relative d-inline-block">Details</h2>
          </div>
          <?php
          if (isset($message)) {
@@ -140,7 +139,7 @@ if (isset($_POST['send'])) {
                               <div class="carousel-inner product-links-wap" role="listbox">
 
                                  <!--First slide-->
-                                 <div class="carouse-item active">
+                                 <div class="">
                                     <div class="row">
                                        <div class="col-4">
                                           <a href="#">
@@ -165,35 +164,11 @@ if (isset($_POST['send'])) {
                                        </div>
                                     </div>
                                  </div>
+
+                                 
                                  <!--/.First slide-->
 
-                                 <!--Second slide-->
-                                 <div class="carouse-item">
-                                    <div class="row">
-                                       <div class="col-4">
-                                          <a href="#">
-                                             <img class="card-img img-fluid"
-                                                src="admin/uploaded_img/<?= htmlspecialchars($fetch_products['image']); ?>"
-                                                alt="Product Image 4">
-                                          </a>
-                                       </div>
-                                       <div class="col-4">
-                                          <a href="#">
-                                             <img class="card-img img-fluid"
-                                                src="admin/uploaded_img/<?= htmlspecialchars($fetch_products['image']); ?>"
-                                                alt="Product Image 5">
-                                          </a>
-                                       </div>
-                                       <div class="col-4">
-                                          <a href="#">
-                                             <img class="card-img img-fluid"
-                                                src="admin/uploaded_img/<?= htmlspecialchars($fetch_products['image']); ?>"
-                                                alt="Product Image 6">
-                                          </a>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!--/.Second slide-->
+                                 
                               </div>
                               <!--End Slides-->
                            </div>
@@ -220,9 +195,22 @@ if (isset($_POST['send'])) {
                                        </h2>
                                     </div>
                                     <div class="col-1 text-end">
-                                       <button class="text-capitalize border-0 bg-white" type="submit"
-                                          name="add_to_wishlist"><i
-                                             class="fa-regular fa-heart fa-lg text-dark heart"></i></button>
+                                       <?php
+                                       // Kiểm tra xem sản phẩm có trong danh sách yêu thích hay không
+                                       $check_wishlist = $pdo->prepare("SELECT * FROM `wishlist` WHERE pid = ? AND user_id = ?");
+                                       $check_wishlist->execute([$fetch_products['id'], $user_id]);
+                                       if ($check_wishlist->rowCount() > 0) {
+                                          // Nếu sản phẩm đã có trong danh sách yêu thích, thêm lớp "text-danger" để đổi màu icon thành đỏ
+                                          echo '<button class="text-capitalize border-0 bg-white" type="submit" name="delete_wishlist">
+                                                   <i class="fa-solid fa-heart fa-lg text-danger heart"></i>
+                                                 </button>';
+                                       } else {
+                                          // Nếu sản phẩm chưa có trong danh sách yêu thích, giữ màu icon là mặc định
+                                          echo '<button class="text-capitalize border-0 bg-white" type="submit" name="add_to_wishlist">
+                                                   <i class="fa-regular fa-heart fa-lg text-dark heart"></i>
+                                                 </button>';
+                                       }
+                                       ?>
                                     </div>
                                  </div>
                                  <p class="h3">$
@@ -234,7 +222,7 @@ if (isset($_POST['send'])) {
                                     <i class="fa fa-star text-warning"></i>
                                     <i class="fa fa-star text-warning"></i>
                                     <i class="fa fa-star text-secondary"></i>
-                                    <span class="list-inline-item text-dark">Rating 4.8 | 22 Comments</span>
+                                    <span class="list-inline-item text-dark">Rating 4.9 | 22 Comments</span>
                                  </p>
                                  <ul class="list-inline m-0">
                                     <li class="list-inline-item">
@@ -250,7 +238,7 @@ if (isset($_POST['send'])) {
                                  <p class="text-capitalize">
                                     <?= htmlspecialchars($fetch_products['details']); ?>
                                  </p>
-                              
+
                                  <ul class="list-inline">
                                     <li class="list-inline-item text-right h6">
                                        Quantity:
@@ -260,7 +248,7 @@ if (isset($_POST['send'])) {
                                     <button class="buy-btn text-capitalize" type="submit" name="add_to_cart">
                                        Add To Cart</button>
                                  </ul>
-                                 
+
 
                                  <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
                                  <input type="hidden" name="p_name" value="<?= $fetch_products['name']; ?>">
@@ -292,275 +280,94 @@ if (isset($_POST['send'])) {
          <div class="container pt-5">
             <div class="row d-flex">
 
-               <?php
-               $loggedIn = isset($_SESSION['user_id']);
-
-               if ($loggedIn) {
-                  if (isset($_GET['pid'])) {
-                     $pid = $_GET['pid'];
-
-                     $select_comment = $pdo->prepare('SELECT reviews.comment, reviews.image, reviews.review_time, user.name FROM `reviews` 
-                                 INNER JOIN `user` ON user.id = reviews.user_id 
-                                 WHERE reviews.pid = ?');
-                     $select_comment->execute([$pid]);
-
-                     if ($select_comment && $select_comment->rowCount() > 0) { ?>
-                        <div class="col-8">
-                           <div class="card border-2">
-                              <div class="card-body p-2">
-                                 <?php
-                                 while ($fetch_comments = $select_comment->fetch(PDO::FETCH_ASSOC)) {
-                                    ?>
-
-                                    <div class="row">
-                                       <div class="col-12 row">
-                                          <div class="col-4 px-5 pb-3">
-                                             <img src="admin/uploaded_img/reviews/<?= $fetch_comments['image']; ?>" alt=""
-                                                width="70%">
-                                          </div>
-                                          <div class="col-8 px-3">
-                                             <p class="card-text text-capitalize text-truncate fw-bold">
-                                                <?= $fetch_comments['name']; ?>
-                                             </p>
-
-                                             <p class="text-capitalize">
-                                                <?= $fetch_comments['comment']; ?>
-                                             </p>
-                                             <p class="text-capitalize text-mute">
-                                                <?= $fetch_comments['review_time']; ?>
-                                             </p>
-
-                                          </div>
-                                          <hr class="d-block mx-2">
-                                       </div>
-                                    </div>
-                                    <?php
-                                 } ?>
-                              </div>
-                           </div>
-                        </div>
+               <div class="col-7">
+                  <div class="card border-2">
+                     <div class="card-body p-2">
                         <?php
-                     } else {
-                        echo '<div class="col-8 text-center pt-3">
-                                    <h6 class="position-relative d-inline-block">Chưa có đánh giá</h6>
-                                 </div>';
-                     }
-                  } else {
-                     $message[] = "Không tìm thấy ID sản phẩm!";
-                  }
-                  ?>
+                        $loggedIn = isset($_SESSION['user_id']);
 
+                        if ($loggedIn) {
+                           if (isset($_GET['pid'])) {
+                              $pid = $_GET['pid'];
 
-                  <div class="col-4">
-                     <div class="card border-2">
-                        <div class="card-body">
-                           <form action="" method="POST" enctype="multipart/form-data" class="col-sm-12">
-                              <?php if (isset($_SESSION['comment'])): ?>
-                                 <div>
-                                    <?= $_SESSION['comment'] ?>
-                                 </div>
-                                 <?php unset($_SESSION['comment']) ?>
-                              <?php endif ?>
-                              <label class="fs-3 fw-bold py-3 text-primary">Comment</label>
-                              <br>
-
-                              <label for="image" class="mx-1">Chọn ảnh:</label>
-                              <input type="file" name="image" id="image">
-                              <textarea name="comment" id="comment" class="form-control mt-3" placeholder="Content reviews"
-                                 rows="7" oninput="checkComment()"></textarea>
-                              <br>
-                              <button value="send" id="sendButton" name="send" type="submit" class="btn"
-                                 disabled>Send</button>
-                           </form>
-                        </div>
-                     </div>
-                  </div>
-               <?php } ?>
-
-
-               <!-- Hiển thị bình luận -->
-               <?php
-               if (!$loggedIn) {
-                  if (isset($_GET['pid'])) {
-                     $pid = $_GET['pid'];
-
-                     $select_comment = $pdo->prepare('SELECT reviews.comment, reviews.image, reviews.review_time, user.name FROM `reviews` 
+                              $select_comment = $pdo->prepare('SELECT reviews.comment, reviews.image, reviews.review_time, user.name FROM `reviews` 
                                     INNER JOIN `user` ON user.id = reviews.user_id 
                                     WHERE reviews.pid = ?');
-                     $select_comment->execute([$pid]);
+                              $select_comment->execute([$pid]);
 
-                     if ($select_comment && $select_comment->rowCount() > 0) {
-                        ?>
-                        <div class="col-8 offset-2">
-                           <div class="card border-2">
-                              <div class="card-body p-2">
-                                 <?php
+                              if ($select_comment && $select_comment->rowCount() > 0) {
                                  while ($fetch_comments = $select_comment->fetch(PDO::FETCH_ASSOC)) {
                                     ?>
 
                                     <div class="row">
-                                       <div class="col-12 row">
-                                          <div class="col-4 px-5 pb-3">
-                                             <img src="admin/uploaded_img/reviews/<?= $fetch_comments['image']; ?>" alt=""
-                                                width="70%">
-                                          </div>
-                                          <div class="col-8 px-3">
-                                             <p class="card-text text-capitalize text-truncate fw-bold">
-                                                <?= $fetch_comments['name']; ?>
-                                             </p>
+                                       <div class="col-2">
+                                          <img src="img/account/u3.jpg" alt="Review Avatar" class="img-fluid rounded-circle"
+                                             width="100" height="100">
+                                       </div>
 
-                                             <p class="text-capitalize">
-                                                <?= $fetch_comments['comment']; ?>
-                                             </p>
-                                             <p class="text-capitalize text-mute">
-                                                <?= $fetch_comments['review_time']; ?>
-                                             </p>
-
-                                          </div>
-                                          <hr class="d-block mx-2">
-
+                                       <div class="col-10">
+                                          <h6 class="text-capitalize">
+                                             <?= htmlspecialchars($fetch_comments['name']); ?>
+                                          </h6>
+                                          <p class="text-muted"><small>
+                                                <?= date("M j, Y", strtotime($fetch_comments['review_time'])); ?>
+                                             </small></p>
+                                          <p class="text-capitalize">
+                                             <?= htmlspecialchars($fetch_comments['comment']); ?>
+                                          </p>
+                                          <?php if (!empty($fetch_comments['image'])) { ?>
+                                             <img src="admin/uploaded_img/reviews/<?= htmlspecialchars($fetch_comments['image']); ?>"
+                                                alt="Review Image" class="img-fluid mt-2" style="max-height: 150px;">
+                                          <?php } ?>
                                        </div>
                                     </div>
+                                    <hr>
                                     <?php
                                  }
-                                 ?>
-                              </div>
+                              } else {
+                                 echo '<div class="alert alert-warning" role="alert">No reviews yet!</div>';
+                              }
+                           } else {
+                              echo '<div class="alert alert-warning" role="alert">No product selected!</div>';
+                           }
+                        } else {
+                           echo '<div class="alert alert-warning" role="alert">Login to leave a review!</div>';
+                        }
+                        ?>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-5">
+                  <div class="card">
+                     <div class="card-body">
+                        <h5 class="text-center text-capitalize">Enter a review</h5>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                           <textarea class="form-control mt-2" name="comment" placeholder="Write your review"
+                              rows="6"></textarea>
+                           <div class="mb-3 mt-2">
+                              <label for="image" class="form-label">Upload Image (optional)</label>
+                              <input type="file" class="form-control" name="image" id="image">
                            </div>
-                        </div>
-                        <?php
-                     } else {
-                        echo '<div class="text-center pt-3">
-                              <h6 class="position-relative d-inline-block">Chưa có đánh giá</h6>
-                           </div>';
-                     }
-                  } else {
-                     $message[] = "Không tìm thấy ID sản phẩm!";
-                  }
-               }
-               ?>
+                           <div class="d-grid gap-2">
+                              <button class="btn btn-primary" type="submit" name="send">Send</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
 
             </div>
          </div>
+      </div>
    </section>
-
-   <!-- // <-- Related items section -->
-   <section id="collection" class="pt-5">
-        <div class="container">
-            <div class="title text-center">
-                <h2 class="position-relative d-inline-block">You may also like</h2>
-            </div>
-
-            <div class="row g-0 container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mt-3">
-                    <?php
-                    $select_products = $pdo->prepare("SELECT * FROM `products` LIMIT 8");
-                    $select_products->execute();
-                    if ($select_products->rowCount() > 0) {
-                        while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {
-                            ?>
-                            <div class="col">
-                                <div class="card shadow rounded h-100 view-card"
-                                    data-product-id="<?= htmlspecialchars($fetch_products['id']); ?>">
-                                    <div class="collection-img position-relative">
-                                        <img class="rounded-top p-0 card-img-top"
-                                            src="admin/uploaded_img/<?= $fetch_products['image']; ?>" alt="">
-                                    </div>
-
-                                    <div class="card-body" style="background-color: #A78A7F; border-radius: 5px;">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <p class="card-text text-capitalize text-truncate fw-bold">
-                                                    <?= htmlspecialchars($fetch_products['name']); ?>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <p class="text-truncate text-capitalize">
-                                            <?= htmlspecialchars($fetch_products['details']); ?>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="fw-bold d-block h5">
-                                                $<?= htmlspecialchars($fetch_products['price']); ?>
-                                            </span>
-                                            <div class="btn-group">
-
-                                            </div>
-                                            <!-- <div class="btn-group">
-                                                <button class="text-capitalize border-0 bg-white" type="submit"
-                                                    name="add_to_wishlist">
-                                                    <i class="fa-regular fa-heart fa-lg text-dark heart"></i>
-                                                </button>
-                                            </div> -->
-                                        </div>
-                                        <input type="hidden" name="pid" value="<?= htmlspecialchars($fetch_products['id']); ?>">
-                                        <input type="hidden" name="p_name"
-                                            value="<?= htmlspecialchars($fetch_products['name']); ?>">
-                                        <input type="hidden" name="p_price"
-                                            value="<?= htmlspecialchars($fetch_products['price']); ?>">
-                                        <input type="hidden" name="p_image"
-                                            value="<?= htmlspecialchars($fetch_products['image']); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                    <?php
-                    } else {
-                        echo '<p class="empty">no products added yet!</p>';
-                    }
-                    ?>
-            </div>
-        </div>
-    </section>
-
-   <script>
-      function addToWishlist() {
-         var loggedIn = <?php echo htmlspecialchars(isset($_SESSION['user_id']) ? 'true' : 'false'); ?>;
-
-         if (!loggedIn) {
-            alert('You need to log in to add products to your wishlist.');
-            window.location.href = 'login.php';
-            return false;
-         }
-         return true;
-      }
-   </script>
-
-   <script>
-      function addToCart() {
-         var loggedIn = <?php echo htmlspecialchars(isset($_SESSION['user_id']) ? 'true' : 'false'); ?>;
-
-         if (!loggedIn) {
-            alert('You need to log in to add products to your cart.');
-            window.location.href = 'login.php';
-            return false;
-         }
-         return true;
-      }
-   </script>
-
-   <script>
-      function checkComment() {
-         var comment = document.getElementById("comment").value.trim();
-
-         if (comment === "") {
-            document.getElementById("sendButton").disabled = true;
-         } else {
-            document.getElementById("sendButton").disabled = false;
-         }
-      }
-   </script>
-   <script>
-        // Bắt sự kiện nhấp vào thẻ card và chuyển hướng đến trang view_page.php
-        document.querySelectorAll('.view-card').forEach(card => {
-            card.addEventListener('click', function () {
-                const productId = this.getAttribute('data-product-id');
-                window.location.href = `view_page.php?pid=${productId}`;
-            });
-        });
-    </script>
-
+   <!-- end of Reviews -->
    <?php
    include_once __DIR__ . '../../partials/footer.php';
+   ?>
+   </div>
+   </div>
+   <!-- end of container -->
+</body>
+
+</html>

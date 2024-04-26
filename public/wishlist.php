@@ -53,7 +53,7 @@ if (isset($_POST['delete_wishlist'])) {
                                                 alt="">
                                         </div>
 
-                                        <div class="card-body">
+                                        <div class="card-body" style="background-color: #A78A7F; border-radius: 5px;">
                                             <div class="row">
                                                 <div class="col-8">
                                                     <p class="card-text text-capitalize text-truncate fw-bold">
@@ -62,8 +62,8 @@ if (isset($_POST['delete_wishlist'])) {
                                                 </div>
 
                                                 <div class="col-4 text-end">
-                                                    <button class="text-capitalize border-0 bg-white" type="submit"
-                                                        name="delete_wishlist">
+                                                    <button class="text-capitalize border-0 " type="submit"
+                                                        name="delete_wishlist" style="background-color: #A78A7F">
                                                         <i class="fa-solid fa-heart fa-lg text-danger heart"></i>
                                                     </button>
                                                 </div>
@@ -75,7 +75,7 @@ if (isset($_POST['delete_wishlist'])) {
                                                 </span>
                                                 <div class="btn-group">
                                                     <a href="view_page.php?pid=<?= htmlspecialchars($fetch_products['pid']); ?>"
-                                                        class="btn btn-primary">View</a>
+                                                        class="btn btn-primary">Detail</a>
                                                 </div>
                                             </div>
 
@@ -85,6 +85,8 @@ if (isset($_POST['delete_wishlist'])) {
                                     </div>
                                 </div>
                             </form>
+
+
                             <?php
                         }
                     } else {
@@ -93,7 +95,7 @@ if (isset($_POST['delete_wishlist'])) {
                             <h6 class="position-relative d-inline-block">No item found </h6>
                             <div>
                                 <a type="submit" class="buy-btn text-capitalize text-decoration-none mt-3" name="shop now"
-                                    href="shop.php">Shop now</a>
+                                    href="index.php">Shop now</a>
                             </div>
                         </div>
                         <?php

@@ -3,30 +3,17 @@ include_once __DIR__ . '../../partials/boostrap.php';
 include_once __DIR__ . '../../partials/header.php';
 require_once __DIR__ . '../../partials/connect.php';
 
-if (isset($_POST['add_to_wishlist'])) {
-
-    $pid = $_POST['pid'];
-    $p_name = $_POST['p_name'];
-    $p_price = $_POST['p_price'];
-    $p_image = $_POST['p_image'];
-    $check_wishlist_numbers = $pdo->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
-    $check_wishlist_numbers->execute([$p_name, $user_id]);
-
-    $check_cart_numbers = $pdo->prepare("SELECT * FROM `cart` WHERE name = ? AND user_id = ?");
-    $check_cart_numbers->execute([$p_name, $user_id]);
-
-    if ($check_wishlist_numbers->rowCount() > 0) {
-        $message[] = 'already added to wishlist!';
-    } elseif ($check_cart_numbers->rowCount() > 0) {
-        $message[] = 'already added to cart!';
-    } else {
-        $insert_wishlist = $pdo->prepare("INSERT INTO `wishlist`(user_id, pid, name, price, image) VALUES(?,?,?,?,?)");
-        $insert_wishlist->execute([$user_id, $pid, $p_name, $p_price, $p_image]);
-        $message[] = 'added to wishlist!';
-    }
-
+// Kiểm tra xem người dùng đã nhấn vào nút phân loại nào và lấy id của danh mục tương ứng
+if (isset($_GET['category_id'])) {
+    $category_id = $_GET['category_id'];
+    $select_products = $pdo->prepare("SELECT * FROM `products` WHERE category_id = :category_id");
+    $select_products->execute([':category_id' => $category_id]);
+} else {
+    // Nếu không có nút nào được nhấn, hiển thị tất cả sản phẩm
+    $select_products = $pdo->prepare("SELECT * FROM `products`");
+    $select_products->execute();
 }
-;
+?>
 
 ?>
 <title>Watch</title>
@@ -37,7 +24,7 @@ if (isset($_POST['add_to_wishlist'])) {
     <!-- slide -->
 
     <header id="header" data-bs-ride="carousel" style="padding-top: 84px;">
-        <div id="carouselExampleIndicators" class="carousel slide">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="500">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
                     aria-current="true" aria-label="Slide 1"></button>
@@ -70,20 +57,52 @@ if (isset($_POST['add_to_wishlist'])) {
         </div>
     </header>
 
+
+
     <!-- end of slide -->
 
     <!-- shop -->
+
     <section id="collection" class="pt-5">
         <div class="container">
-            <div class="title text-center">
-                <h2 class="position-relative d-inline-block">New Collection</h2>
+
+            <?php
+            if (isset($message)) {
+                foreach ($message as $msg) {
+                    echo '<div class="alert alert-warning alert-dismissible fade show col-6 offset-3" role="alert" tabindex="-1">
+                            ' . htmlspecialchars($msg) . '
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>';
+                }
+            }
+            ?>
+            <div class="row g-0 justify-content-center">
+                <div class="d-flex flex-wrap justify-content-center mt-3 filter-button-group">
+                    <button type="button" class="btn m-2 text-dark"><a class="text-decoration-none text-dark"
+                            href="index.php">All</a></button>
+                    <?php
+                    $select_categorys = $pdo->prepare("SELECT * FROM `category`");
+                    $select_categorys->execute();
+                    if ($select_categorys->rowCount() > 0) {
+                        while ($fetch_categorys = $select_categorys->fetch(PDO::FETCH_ASSOC)) {
+                            ?>
+                            <button type="button" class="btn m-2"><a class="text-decoration-none text-dark"
+                                    href="index.php?category_id=<?= htmlspecialchars($fetch_categorys['id']); ?>">
+                                    <?= htmlspecialchars($fetch_categorys['name']); ?>
+                                </a>
+                            </button>
+                            <?php
+                        }
+                    } else {
+                        echo '<p>No categories added yet!</p>';
+                    }
+                    ?>
+                </div>
             </div>
 
             <div class="row g-0 container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mt-3">
                     <?php
-                    $select_products = $pdo->prepare("SELECT * FROM `products` LIMIT 8");
-                    $select_products->execute();
                     if ($select_products->rowCount() > 0) {
                         while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {
                             ?>
@@ -91,7 +110,7 @@ if (isset($_POST['add_to_wishlist'])) {
                                 <div class="card shadow rounded h-100 view-card"
                                     data-product-id="<?= htmlspecialchars($fetch_products['id']); ?>">
                                     <div class="collection-img position-relative">
-                                        <img class="rounded-top p-0 card-img-top"
+                                        <img class="rounded-top p-0 card-img-top custom-image-size"
                                             src="admin/uploaded_img/<?= $fetch_products['image']; ?>" alt="">
                                     </div>
 
@@ -104,23 +123,26 @@ if (isset($_POST['add_to_wishlist'])) {
                                             </div>
                                         </div>
 
-                                        <p class="text-truncate text-capitalize">
-                                            <?= htmlspecialchars($fetch_products['details']); ?>
+                                        <p class="">
+                                            <i class="fa fa-star text-danger"></i>
+                                            <i class="fa fa-star text-danger"></i>
+                                            <i class="fa fa-star text-danger"></i>
+                                            <i class="fa fa-star text-danger"></i>
+                                            <i class="fa fa-star text-danger"></i>
+                                            <span class="list-inline-item text-dark">Rating 4.9</span>
                                         </p>
+
                                         <div class="d-flex justify-content-between align-items-center">
+                                            <span class="d-block h5 " style="position: relative; color: #222;">
+                                                <span style="text-decoration: line-through;">
+                                                    $<?= htmlspecialchars($fetch_products['price'] + ($fetch_products['price'] * 0.15)); ?>
+                                                </span>
+                                            </span>
                                             <span class="fw-bold d-block h5">
                                                 $<?= htmlspecialchars($fetch_products['price']); ?>
                                             </span>
-                                            <div class="btn-group">
-
-                                            </div>
-                                            <!-- <div class="btn-group">
-                                                <button class="text-capitalize border-0 bg-white" type="submit"
-                                                    name="add_to_wishlist">
-                                                    <i class="fa-regular fa-heart fa-lg text-dark heart"></i>
-                                                </button>
-                                            </div> -->
                                         </div>
+
                                         <input type="hidden" name="pid" value="<?= htmlspecialchars($fetch_products['id']); ?>">
                                         <input type="hidden" name="p_name"
                                             value="<?= htmlspecialchars($fetch_products['name']); ?>">
@@ -133,20 +155,20 @@ if (isset($_POST['add_to_wishlist'])) {
                             </div>
                             <?php
                         }
-                        ?>
-                    </div>
-                    <?php
                     } else {
-                        echo '<p class="empty">no products added yet!</p>';
+                        echo '<p class="empty">No products found!</p>';
                     }
                     ?>
+                </div>
             </div>
+
         </div>
     </section>
     <!-- end of shop -->
 
     <!-- offer -->
     <section id="offers" class="py-3 my-2">
+
         <iframe width="1290" height="500" src="https://www.youtube.com/embed/z_znOUp0ztQ?si=n7qbFAEmJaMTwUO2"
             title="YouTube video player" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -155,105 +177,116 @@ if (isset($_POST['add_to_wishlist'])) {
     </section>
     <!-- end of offer -->
 
-    <!-- about us -->
-    <section id="about" class="my-5 py-5">
-        <div class="container">
-            <div class="title text-center">
-                <h2 class="position-relative d-inline-block ms-4">About Us</h2>
-                <hr class="mx-auto">
-            </div>
-            <div class="row gy-lg-5 align-items-center mt-1">
-                <div class="col-lg-6 order-lg-1 text-center text-lg-start">
-                   
-                    <p class="lead text-muted px-6" >At WATCH, we take pride in being the trusted destination for
-                        enthusiasts and aficionados of the world of time. With a mission to make every moment special,
-                        we offer a diverse and stunning collection of wristwatches from leading brands worldwide.
-                        <br>
-                        
-                        At WATCH, we are more than just a place to shop; we are a destination for time
-                        enthusiasts. Our mission is to provide customers with the best online shopping experience,
-                        delivering quality products and exceptional customer service.
-
-                        <br>
-                        With an unwavering passion, we strive to become the premier destination for time enthusiasts
-                        worldwide. We are committed to offering the widest selection, the best value, and the finest
-                        customer service to satisfy every customer.
-
-                        <br>
-                        Our team is not just staff; they are time enthusiasts dedicated to our mission. We take pride in
-                        having a team of professionally trained and experienced experts who are always ready to assist
-                        and advise you in selecting the perfect timepiece</p>
-                    <button class="btn mx-4 my-4"><a href="about.php" class="text-decoration-none text-dark">Read
-                            more</a></button>
-                </div>
-
-                <div class="col-lg-4 order-lg-0 pt-3 pb-3">
-                    <img src="img/poster/p4.png" alt="" class="img-fluid" style="height: 600px;">
-                    <!-- Thay đổi giá trị 200px để điều chỉnh chiều cao mong muốn -->
-                </div>
-
-            </div>
-        </div>
-    </section>
-    <!-- end of about us -->
-
-    <!-- blogs -->
     <section id="blogs" class="my-5">
         <div class="container">
             <div class="title text-center">
-                <h2 class="position-relative d-inline-block mb-3">An Extraordinary Commitment To Quality</h2>
-                <p>No matter what item you choose, you’ll find these things to be true:</p>
+                <h2 class="position-relative d-inline-block mb-3">Famous Brand</h2>
+                <div class="row g-3 mt-3">
+                    <div class="col-md-4 col-lg-2 ">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCXD4yQVYXXe6PEW15V5YzBjkZLBYegkvvD6l6bhFKU_4m02F2DMkob5ezxuOssqIFk5Q&usqp=CAU"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2 ">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Blancpain.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Longines.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Patek-Philippe-Nam-1920-Den-nam-1996.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Breitling.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-IWC.jpg" alt=""
+                            class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Vacheron-Constantin.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Hublot-Lich-su-va-Y-nghia.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-A-Lange-and-Sohne-nam-1948-Den-nay.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-IWC.jpg" alt=""
+                            class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://benhviendongho.com/wp-content/uploads/2020/10/Logo_breguets.jpg" alt=""
+                            class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://donghochat8668.com/wp-content/uploads/2023/04/logo-dong-ho-blancpain.webp"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Vacheron-Constantin.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Hublot-Lich-su-va-Y-nghia.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Patek-Philippe-Nam-1920-Den-nam-1996.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Breitling.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-IWC.jpg" alt=""
+                            class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2 ">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCXD4yQVYXXe6PEW15V5YzBjkZLBYegkvvD6l6bhFKU_4m02F2DMkob5ezxuOssqIFk5Q&usqp=CAU"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2 ">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Blancpain.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Longines.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Vacheron-Constantin.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Hublot-Lich-su-va-Y-nghia.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Patek-Philippe-Nam-1920-Den-nam-1996.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                    <div class="col-md-4 col-lg-2 ">
+                        <img src="https://thumuadonghohieu.com/wp-content/uploads/2018/07/Logo-Dong-ho-Blancpain.jpg"
+                            alt="" class="custom-image-style">
+                    </div>
+                </div>
             </div>
-            <div class="row g-3">
-                <div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-                    <img src="../img/poster/durable.webp" alt="">
-                    <div class="card-body px-0">
-                        <h4 class="card-title">DURABLE. <br> NOT DISPOSABLE.</h4>
-                        <p class="card-text mt-3 text-muted"></p>
-                    </div>
-                </div>
-
-                <div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-                    <img src="../img/poster/assets_7acommunity.webp" alt="">
-                    <div class="card-body px-0">
-                        <h4 class="card-title">COMMUNITY POWERED <br> SUPPLY CHAIN.</h4>
-                        <p class="card-text mt-3 text-muted"></p>
-                    </div>
-                </div>
-
-                <div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-                    <img src="../img/poster/made.webp" alt="">
-                    <div class="card-body px-0">
-                        <h4 class="card-title">MADE RIGHT. <br> RIGHT HERE.</h4>
-                        <p class="card-text mt-3 text-muted"></p>
-                    </div>
-                </div>
-            </div>
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item btn">
-                        <a class="text-decoration-none text-dark" href="blog.php">Read more</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </section>
-    <!-- end of blogs -->
 
     <button onclick="topFunction()" id="myBtn" title="Quay lại đầu trang"><i class="fa-solid fa-arrow-up"></i></button>
-    <script>
-        function addToWishllist() {
-            var loggedIn = <?= htmlspecialchars(isset($_SESSION['user_id']) ? 'true' : 'false'); ?>;
-
-            if (!loggedIn) {
-                alert('You need to log in to add products to your wishlist.');
-                window.location.href = 'login.php';
-                return false;
-            }
-            return true;
-        }
-    </script>
 
     <script>
         window.onscroll = function () { scrollFunction() };
@@ -280,9 +313,40 @@ if (isset($_POST['add_to_wishlist'])) {
                 window.location.href = `view_page.php?pid=${productId}`;
             });
         });
+
+        window.onload = function () {
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            // Kích hoạt modal khi trang được tải
+            modal.style.display = "block";
+
+            // Đóng modal khi người dùng nhấp vào nút đóng
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // Đóng modal khi người dùng nhấp vào bất kỳ nơi nào bên ngoài modal
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
     </script>
 
 </body>
+<div id="myModal" class="modal"
+    style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; max-width: 500px; height: auto; max-height: 100%;">
+    <div class="modal-content"
+        style="background-color: #fefefe; margin: auto; border: 1px solid #888; overflow-y: auto; position: relative;">
+        <span class="close"
+            style="color: black; font-size: 30px; position: absolute; top: 0px; right: 0; margin: 0px; cursor: pointer;">X</span>
+        <img src="https://cdnphoto.dantri.com.vn/_uZ_bW6TZL5nH8TFyRkXXnHEyl4=/thumb_w/960/2021/02/06/dangquangdocx-1612593330945.png"
+            alt="Popup Image">
+    </div>
+</div>
 
 </html>
 

@@ -67,15 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
         if ($select_orders->rowCount() > 0) {
             while ($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)) {
                 ?>
-                <div class="row mt-5">
+                <div class="row mt-5" style="border: 3px solid #A78A7F;">
 
-                    <div class="col-12">
-                        <table class="mt-5 pt-5">
+                    <div class="col-lg-6" >
+                        <table class="mt-5 pt-5" style="border: 3px solid #A78A7F;">
                             <tr>
-                                <th class="col">Product Image</th>
-                                <th class="col">Product Name</th>
-                                <th class="col">Product Price</th>
-                                <th class="col">Product Quantity</th>
+                                <th class="col">Product</th>
+                                <th class="col">Name</th>
+                                <th class="col">Price</th>
+                                <th class="col">Quantity</th>
                             </tr>
 
                             <?php
@@ -109,8 +109,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
 
                         </table>
                     </div>
-                    <div class="cart-total">
+                    <div class="col-lg-6 mt-5">
+                    <div class="cart-total ">
                         <table>
+                            <tr>
+                                <td>Total Price</td>
+                                <td>$
+                                    <?= htmlspecialchars($fetch_orders['total_price']); ?>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>Placed On</td>
                                 <td>
@@ -124,26 +131,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
                                     <?= htmlspecialchars($fetch_orders['cancel_date']); ?>
                                 </td>
                             </tr>
-
-                            <tr class="<?= ($fetch_orders['check_date'] === '0000-00-00') ? 'd-none' : ''; ?>">
-                                <td>Check Date</td>
-                                <td>
-                                    <?= htmlspecialchars($fetch_orders['check_date']); ?>
-                                </td>
-                            </tr>
-
+                            
                             <tr class="<?= ($fetch_orders['received_date'] === '0000-00-00') ? 'd-none' : ''; ?>">
                                 <td>Received Date</td>
                                 <td>
                                     <?= htmlspecialchars($fetch_orders['received_date']); ?>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Total Price</td>
-                                <td>$
-                                    <?= htmlspecialchars($fetch_orders['total_price']); ?>
-                                </td>
-                            </tr>
+                            
                             <tr>
                                 <td>Payment Method</td>
                                 <td>
@@ -171,6 +166,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
                             </td>
                         </tr>
                     </div>
+                    </div>
+                    
                 </div>
 
                 <?php

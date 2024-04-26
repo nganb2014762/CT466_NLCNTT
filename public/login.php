@@ -1,13 +1,10 @@
 <?php
 
 include_once __DIR__ . '../../partials/boostrap.php';
-
 include_once __DIR__ . '../../partials/header.php';
-
 require_once __DIR__ . '../../partials/connect.php';
 
 if (isset($_POST['submit'])) {
-
     $email = $_POST['email'];
     $password = md5($_POST['password']);
 
@@ -24,8 +21,14 @@ if (isset($_POST['submit'])) {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row && strtolower($row['email']) == $email && $row['password'] == $password && $row['role'] == '0') {
             $_SESSION['user_id'] = $row['id'];
-            header('Location: index.php');
-            exit();
+?>
+            <!-- Mã JavaScript chuyển hướng người dùng sau khi đăng nhập thành công -->
+            <script>
+                // Sử dụng JavaScript để chuyển hướng người dùng đến trang chính sau khi đăng nhập thành công
+                window.location.href = 'index.php';
+            </script>
+<?php
+            exit(); // Đảm bảo kết thúc script sau khi chuyển hướng
         } else {
             $message[] = 'Incorrect email or password!';
         }
@@ -33,8 +36,6 @@ if (isset($_POST['submit'])) {
         $message[] = 'No user found';
     }
 }
-;
-
 ?>
 
 <title>Login</title>

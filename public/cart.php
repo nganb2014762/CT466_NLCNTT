@@ -1,26 +1,15 @@
 <?php
 include_once __DIR__ . '../../partials/boostrap.php';
-
 include_once __DIR__ . '../../partials/header.php';
-
 require_once __DIR__ . '../../partials/connect.php';
-
-// $user_id = $_SESSION['user_id'];
-// if (!isset($user_id)) {
-//     header('location:login.php');
-    
-// }
-// ;
-
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    // Nếu session 'user_id' không tồn tại, chuyển hướng người dùng đến trang đăng nhập
-    header('Location: login.php');
-    exit; // Đảm bảo kết thúc script sau khi chuyển hướng
+    // Nếu session 'user_id' không tồn tại, chuyển hướng người dùng đến trang đăng nhập bằng JavaScript
+    echo '<script>window.location.href = "login.php";</script>';
+    exit(); // Đảm bảo kết thúc script sau khi chuyển hướng
 }
-
 
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
@@ -28,14 +17,12 @@ if (isset($_GET['delete'])) {
     $delete_cart_item->execute([$delete_id]);
     header('location:cart.php');
 }
-;
 
 if (isset($_GET['delete_all'])) {
     $delete_cart_item = $pdo->prepare("DELETE FROM `cart` WHERE user_id = ?");
     $delete_cart_item->execute([$user_id]);
     header('location:cart.php');
 }
-;
 
 if (isset($_POST['update_qty'])) {
     $new_quantities = $_POST['p_qty'];
@@ -49,10 +36,16 @@ if (isset($_POST['update_qty'])) {
         }
     }
 }
-;
 ?>
 
-<title>Cart</title>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <!-- CSS links here -->
 </head>
 
 <body>
@@ -72,7 +65,6 @@ if (isset($_POST['update_qty'])) {
                           </div>';
                 }
             }
-            ;
             ?>
             <?php
             $total = 0.00;
@@ -81,93 +73,84 @@ if (isset($_POST['update_qty'])) {
             $select_cart->execute([$user_id]);
             ?>
             <?php if ($select_cart->rowCount() > 0) { ?>
-                <table class="mt-5 pt-5 table-responsive">
-                    <tr>
-                        <th class="col-3">Product</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                        <th>Delete</th>
-                    </tr>
-                    <?php
-                    while ($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)) {
-                        $product_subtotal = $fetch_cart['price'] * $fetch_cart['quantity'];
-                        $sub_total += $product_subtotal;
-                        ?>
-                        <form method="POST" action="cart.php">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="mt-5 pt-5 table-responsive" style="border: 3px solid #A78A7F;">
                             <tr>
-                                <td>
-                                    <div class="product-info">
-                                        <img src="admin/uploaded_img/<?= htmlspecialchars($fetch_cart['image']); ?>" alt=""
-                                            class="w-50">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="product-name">
-                                        <div class=" name text-capitalize">
-                                            <?= htmlspecialchars($fetch_cart['name']); ?>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="product-price">
-                                        <div class="price">$
-                                            <?= htmlspecialchars($fetch_cart['price']); ?>
-                                        </div>
-                                    </div>
-                                </td>
-                                
-                                <td>
-                                    <div class="quantity">
-                                        <input type="number" name="p_qty[<?= htmlspecialchars($fetch_cart['id']); ?>]"
-                                            value="<?= htmlspecialchars($fetch_cart['quantity']); ?>" min="1">
-                                    </div>
-                                    <button class="bg-white border-0 text-primary" type="submit"
-                                        name="update_qty">Update</button>
-                                </td>
-                                <td>
-                                    <span class="product-price">$
-                                        <?= htmlspecialchars($product_subtotal); ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <a class="text-capitalize text-align"
-                                        href="cart.php?delete=<?= htmlspecialchars($fetch_cart['id']); ?>"
-                                        onclick="return confirm('delete this from cart?');">delete</a>
+                                <th class="col-3">Product</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                                <th>Delete</th>
+                            </tr>
+                            <?php
+                            while ($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)) {
+                                $product_subtotal = $fetch_cart['price'] * $fetch_cart['quantity'];
+                                $sub_total += $product_subtotal;
+                                ?>
+                                <form method="POST" action="cart.php">
+                                    <tr>
+                                        <td>
+                                            <div class="product-info">
+                                                <img src="admin/uploaded_img/<?= htmlspecialchars($fetch_cart['image']); ?>"
+                                                    alt="" class="w-50">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-name">
+                                                <div class=" name text-capitalize">
+                                                    <?= htmlspecialchars($fetch_cart['name']); ?>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-price">
+                                                <div class="price">$<?= htmlspecialchars($fetch_cart['price']); ?></div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="quantity">
+                                                <input type="number" name="p_qty[<?= htmlspecialchars($fetch_cart['id']); ?>]"
+                                                    value="<?= htmlspecialchars($fetch_cart['quantity']); ?>" min="1">
+                                            </div>
+                                            <button class="bg-white border-0 text-primary" type="submit"
+                                                name="update_qty">Update</button>
+                                        </td>
+                                        <td>
+                                            <span class="product-price">$<?= htmlspecialchars($product_subtotal); ?></span>
+                                        </td>
+                                        <td>
+                                            <a class="text-capitalize text-align"
+                                                href="cart.php?delete=<?= htmlspecialchars($fetch_cart['id']); ?>"
+                                                onclick="return confirm('delete this from cart?');">delete</a>
+                                        </td>
+                                    </tr>
+                                </form>
+                            <?php } ?>
+                        </table>
+                    </div>
+                    <div class="col-md-3 mt-2 offset-md-8">
+                        <table>
+                            <tr>
+                                <td><strong style="font-size: 28px;">Total</strong></td>
+                                <td><span style="color: red; font-weight: bold; font-size: 28px;">$<?= $sub_total; ?></span>
                                 </td>
                             </tr>
-                        </form>
-                        <?php
-                    }
-                    ?>
-                </table>
+                        </table>
 
 
-                <div class="cart-total">
-                    <table>
-                        <tr>
-                            <td>Total</td>
-                            <td>$
-                                <?= $sub_total; ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Subtotal</td>
-                            <td><span>$
-                                    <?= $sub_total; ?>
-                                </span></td>
-                        </tr>
-                    </table>
+
+                        <div class="mt-3">
+                            <a class="btn checkout-btn" href="checkout.php">
+                                Go to checkout <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="checkout-container">
-                    <a class="btn checkout-btn" href="checkout.php">Checkout</a>
-                </div>
-
-                <?php
-            } else {
-                ?>
+            <?php } else { ?>
                 <div class="text-center pt-3">
                     <h6 class="position-relative d-inline-block">No item found </h6>
                     <div>
@@ -175,10 +158,12 @@ if (isset($_POST['update_qty'])) {
                             href="shop.php">shop now</a>
                     </div>
                 </div>
-                <?php
-            }
-            ?>
+            <?php } ?>
         </div>
     </section>
     <?php
     include_once __DIR__ . '../../partials/footer.php';
+    ?>
+</body>
+
+</html>

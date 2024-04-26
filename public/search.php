@@ -108,50 +108,50 @@ if (isset($_POST['add_to_cart'])) {
             if ($select_products->rowCount() > 0) {
                 while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {
                     ?>
-                    <form action="" method="POST" onsubmit="return addToWishllist();">
-                        <div class="col">
-                            <div class="card shadow rounded h-100">
-                                <div class="collection-img position-relative">
-                                    <img class="rounded-top p-0 card-img-top"
-                                        src="admin/uploaded_img/<?= htmlspecialchars($fetch_products['image']); ?>" alt="">
+                    <div class="col">
+                        <div class="card shadow rounded h-100 view-card"
+                            data-product-id="<?= htmlspecialchars($fetch_products['id']); ?>">
+                            <div class="collection-img position-relative">
+                                <img class="rounded-top p-0 card-img-top custom-image-size"
+                                    src="admin/uploaded_img/<?= $fetch_products['image']; ?>" alt="">
+                            </div>
+
+                            <div class="card-body" style="background-color: #A78A7F; border-radius: 5px;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="card-text text-capitalize text-truncate fw-bold">
+                                            <?= htmlspecialchars($fetch_products['name']); ?>
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <p class="card-text text-capitalize text-truncate fw-bold">
-                                                <?= htmlspecialchars($fetch_products['name']); ?>
-                                            </p>
-                                        </div>
+                                <p class="">
+                                    <i class="fa fa-star text-danger"></i>
+                                    <i class="fa fa-star text-danger"></i>
+                                    <i class="fa fa-star text-danger"></i>
+                                    <i class="fa fa-star text-danger"></i>
+                                    <i class="fa fa-star text-danger"></i>
+                                    <span class="list-inline-item text-dark">Rating 4.9</span>
+                                </p>
 
-                                        <div class="col-4 text-end"><button class="text-capitalize border-0 bg-white" type="submit"
-                                                name="add_to_wishlist"><i
-                                                    class="fa-regular fa-heart fa-lg text-dark heart"></i></button>
-                                        </div>
-
-                                    </div>
-
-                                    <p class="text-truncate text-capitalize">
-                                        <?= htmlspecialchars($fetch_products['details']); ?>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="fw-bold d-block h5">$
-                                            <?= htmlspecialchars($fetch_products['price']); ?>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="d-block h5 " style="position: relative; color: #222;">
+                                        <span style="text-decoration: line-through;">
+                                            $<?= htmlspecialchars($fetch_products['price'] + ($fetch_products['price'] * 0.15)); ?>
                                         </span>
-                                        <div class="btn-group">
-                                            <a href="view_page.php?pid=<?= htmlspecialchars($fetch_products['id']); ?>"
-                                                class="btn btn-primary">View</a>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="pid" value="<?= htmlspecialchars($fetch_products['id']); ?>">
-                                    <input type="hidden" name="p_name" value="<?= htmlspecialchars($fetch_products['name']); ?>">
-                                    <input type="hidden" name="p_price" value="<?= htmlspecialchars($fetch_products['price']); ?>">
-                                    <input type="hidden" name="p_image" value="<?= htmlspecialchars($fetch_products['image']); ?>">
-
+                                    </span>
+                                    <span class="fw-bold d-block h5">
+                                        $<?= htmlspecialchars($fetch_products['price']); ?>
+                                    </span>
                                 </div>
+
+                                <input type="hidden" name="pid" value="<?= htmlspecialchars($fetch_products['id']); ?>">
+                                <input type="hidden" name="p_name" value="<?= htmlspecialchars($fetch_products['name']); ?>">
+                                <input type="hidden" name="p_price" value="<?= htmlspecialchars($fetch_products['price']); ?>">
+                                <input type="hidden" name="p_image" value="<?= htmlspecialchars($fetch_products['image']); ?>">
                             </div>
                         </div>
-                    </form>
+                    </div>
 
                     <?php
                 }
@@ -172,3 +172,12 @@ include_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 
 </html>
+<script>
+    // Bắt sự kiện nhấp vào thẻ card và chuyển hướng đến trang view_page.php
+    document.querySelectorAll('.view-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const productId = this.getAttribute('data-product-id');
+            window.location.href = `view_page.php?pid=${productId}`;
+        });
+    });
+</script>

@@ -30,16 +30,14 @@
                                 style="border-radius: 60%; width: 80px; height: 70px;">
                         </a>
                     </li>
-
-                    <li class="nav-item dropdown px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="shop.php">shop</a>
-                    </li>
+                    
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="blog.php">blogs</a>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="about.php">about us</a>
                     </li>
+                    
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="contact.php">contact us</a>
                     </li>

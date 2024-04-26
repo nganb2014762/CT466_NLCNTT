@@ -125,7 +125,7 @@ if (isset($_POST['order'])) {
   <main>
     <div class="my-5 pt-5 text-center">
       <div class="container title text-center mt-3 pt-5">
-        <h2 class="position-relative d-inline-block">Checkout form</h2>
+        <h2 class="position-relative d-inline-block">Checkout </h2>
       </div>
     </div>
     <?php
@@ -139,10 +139,10 @@ if (isset($_POST['order'])) {
     }
     ;
     ?>
-    <div class="row g-5">
-      <div class="col-md-5 col-lg-4 order-md-last">
+    <div class="row g-5" style="border: 3px solid #A78A7F;">
+      <div class="col-md-6 col-lg-5 order-md-last" >
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-primary ">Your cart</span>
+          <span class="text-primary ">Your bill</span>
         </h4>
         <?php
         $cart_grand_total = 0;
@@ -192,18 +192,15 @@ if (isset($_POST['order'])) {
             <?= htmlspecialchars($cart_grand_total); ?>$
           </strong>
         </li>
-        <button class="w-100 btn btn-sm mt-3" name="go_to_shop" type="submit"><a href="shop.php"
-            class="text-decoration-none text-dark">Go to shop</a>
-        </button>
-        <button class="w-100 btn btn-sm mt-3" name="Go to cart" type="submit"><a href="cart.php"
-            class="text-decoration-none text-dark">Go to Cart</a>
-        </button>
-        <button class="w-100 btn btn-sm mt-3" name="Go to cart" type="submit"><a href="my_order.php"
-            class="text-decoration-none text-dark">My order</a>
+
+        <button class="w-100 btn btn-sm mt-3" name="Go to cart" type="submit">
+          <a href="my_order.php" class="text-decoration-none text-dark">
+            Order Status <i class="fas fa-arrow-right"></i>
+          </a>
         </button>
       </div>
 
-      <div class="col-md-7 col-lg-8 border-end">
+      <div class="col-md-6 col-lg-7 border-end">
         <h4 class="mb-3 text-primary">Billing address</h4>
         <form class="needs-validation" validate method="POST">
           <div class="row g-3">
@@ -225,7 +222,7 @@ if (isset($_POST['order'])) {
               </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-sm-6">
               <label for="email" class="form-label">Email</label>
               <input type="email" class="form-control" name="email"
                 value="<?= htmlspecialchars($fetch_profile['email']); ?>" required>
@@ -242,15 +239,19 @@ if (isset($_POST['order'])) {
                 Please enter your shipping address.
               </div>
             </div>
-            <h4 class="text-primary">Payment</h4>
-            <select name="method" class="form-control" required>
-              <option value="cash on delivery">Cash on delivery</option>
-              <option value="credit card">Credit card</option>
-              <option value="MoMo">MoMo</option>
-              <option value="Zalo Pay">Zalo Pay</option>
-            </select>
-            <button class="w-100 btn btn-primary btn-lg mt-3 <?= ($cart_grand_total > 1) ? '' : 'disabled'; ?>"
-              name="order" type="submit">Accept Payment</button>
+
+            <div class="col-12">
+              <h4 class="text-primary">Payment</h4>
+              <select name="method" class="form-control" required>
+                <option value="cash on delivery">Cash on delivery</option>
+                <option value="credit card">Credit card</option>
+                <option value="MoMo">MoMo</option>
+                <option value="Zalo Pay">Zalo Pay</option>
+              </select>
+              <button class=" btn btn-primary  mt-3 mb-5 <?= ($cart_grand_total > 1) ? '' : 'disabled'; ?>" name="order"
+                type="submit">Accept Payment</button>
+            </div>
+
         </form>
       </div>
     </div>
