@@ -155,7 +155,7 @@ if (isset($_POST['update_qty'])) {
                     <h6 class="position-relative d-inline-block">No item found </h6>
                     <div>
                         <a type="submit" class="buy-btn text-capitalize text-decoration-none mt-3" name="shop now"
-                            href="shop.php">shop now</a>
+                            href="index.php">shop now</a>
                     </div>
                 </div>
             <?php } ?>

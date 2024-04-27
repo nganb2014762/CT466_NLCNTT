@@ -15,7 +15,7 @@ require_once __DIR__ . '../../partials/connect.php';
             <hr class="mx-auto">            
         </div>   
         <div class="text-center">
-            <img src="img/poster/b1.png" alt="" style="width: 1000px; height: 600px;"> 
+            <img src="img/poster/blog.png" alt="" style="width: 1000px; height: 600px;"> 
         </div>        
 
     </div>

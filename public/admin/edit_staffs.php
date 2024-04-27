@@ -86,7 +86,7 @@ if (isset($message)) {
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Cập nhật thông tin nhân viên</h1>
-                        <a href="list_staffs.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="list_staffs.php" class="d-none d-sm-inline-block btn btn-sm  shadow-sm" style="background-color: #0b6e4f; color:black"><i
                                 class="fas fa-solid fa-list fa-sm text-white-50"></i> Danh sách nhân viên</a>
                     </div>
 
@@ -191,7 +191,7 @@ if (isset($message)) {
 
                                                         <div class="form-group">
                                                             <div class="flex-btn">
-                                                                <input type="submit" class="btn w-100 btn-primary shadow-sm"
+                                                                <input type="submit" class="btn w-100  shadow-sm" style="background-color: #0b6e4f; color:black"
                                                                     value="Update staff" name="update_staff">
                                                             </div>
                                                         </div>

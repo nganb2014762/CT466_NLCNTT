@@ -118,13 +118,13 @@ if (isset($message)) {
                                     </div>
                                     <div class="form-group">
                                         <div class="flex-btn">
-                                            <a href="edit_profile.php" class="btn btn-primary shadow-sm w-100">Change
+                                            <a href="edit_profile.php" class="btn shadow-sm w-100" style="background-color: #0b6e4f; color:black">Change
                                                 Information</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="flex-btn">
-                                            <a href="change_password.php" class="btn btn-primary shadow-sm w-100">Change
+                                            <a href="change_password.php" class="btn  shadow-sm w-100" style="background-color: #0b6e4f; color:black">Change
                                                 Password</a>
                                         </div>
                                     </div>

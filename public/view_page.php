@@ -184,8 +184,8 @@ if (isset($_POST['send'])) {
                         </div>
                      </div>
                      <!-- col end -->
-                     <div class="col-lg-6 mt-5">
-                        <div class="card">
+                     <div class="col-lg-6 mt-5" >
+                        <div class="card" style="background-color:antiquewhite">
                            <div class="card-body">
                               <form action="" method="POST" onsubmit="return addToCart();" onsubmit="return addToWishlist();">
                                  <div class="row">
@@ -201,12 +201,12 @@ if (isset($_POST['send'])) {
                                        $check_wishlist->execute([$fetch_products['id'], $user_id]);
                                        if ($check_wishlist->rowCount() > 0) {
                                           // Nếu sản phẩm đã có trong danh sách yêu thích, thêm lớp "text-danger" để đổi màu icon thành đỏ
-                                          echo '<button class="text-capitalize border-0 bg-white" type="submit" name="delete_wishlist">
-                                                   <i class="fa-solid fa-heart fa-lg text-danger heart"></i>
+                                          echo '<button class="text-capitalize border-0 " type="submit" name="delete_wishlist" style="background-color:antiquewhite">
+                                                   <i class="fa-solid fa-heart fa-lg text-danger heart" ></i>
                                                  </button>';
                                        } else {
                                           // Nếu sản phẩm chưa có trong danh sách yêu thích, giữ màu icon là mặc định
-                                          echo '<button class="text-capitalize border-0 bg-white" type="submit" name="add_to_wishlist">
+                                          echo '<button class="text-capitalize border-0 " type="submit" name="add_to_wishlist" style="background-color:antiquewhite">
                                                    <i class="fa-regular fa-heart fa-lg text-dark heart"></i>
                                                  </button>';
                                        }

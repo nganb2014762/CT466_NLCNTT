@@ -13,6 +13,18 @@ html {
 body {
     width: 100%;
 }
+.custom-image-style {
+    width: 100%;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+/* Tạo ra một lớp tùy chỉnh để điều chỉnh khoảng cách ngang */
+.custom-columns {
+    margin-right: 10px; /* Điều chỉnh khoảng cách ngang giữa các cột */
+    margin-left: 10px;  /* Điều chỉnh khoảng cách ngang giữa các cột */
+}
+
 
 /* button */
 .bg-primary {
@@ -222,10 +234,14 @@ hr {
 .page-item a {
     text-decoration: none;
 }
+.custom-image-size {
+    width: 200px;
+    height: 200px;
+}
 
 /* rating */
 .fa-star {
-    color: rgb(243, 181, 25) !important;
+    color: rgb(236, 13, 13) !important;
 }
 
 .sale {
@@ -268,7 +284,7 @@ hr {
 }
 
 #blogs .card-title:hover {
-    color: #A78A7F;
+    color: #F5E656;
 }
 
 #blogs .card img {
@@ -288,9 +304,6 @@ hr {
     background-color: rgba(179, 179, 179, 0.05);
 }
 
-#contact{
-    background: url(../img/poster/contact_us.jpg) center/cover no-repeat;
-}
 
 /* footer */
 footer .brand {
@@ -306,11 +319,11 @@ footer a {
 
 footer a:hover {
     cursor: pointer;
-    color: #A78A7F !important;
+    color: #F5E656 !important;
 }
 
 footer .install .row img {
-    border: 1px solid #A78A7F;
+    border: 1px solid #F5E656;
     border-radius: 6px;
 }
 
@@ -343,6 +356,7 @@ footer img {
 #cart table {
     width: 100%;
     border-collapse: collapse;
+    /* border: 1px solid #A78A7F; */
 }
 
 #cart .product-info {
@@ -400,7 +414,7 @@ footer img {
 .cart-total table {
     width: 100%;
     max-width: 500px;
-    border-top: 3px solid #A78A7F;
+    /* border-top: 3px solid #A78A7F; */
 }
 
 td:last-child {
@@ -416,12 +430,8 @@ th:last-child {
     justify-content: flex-end;
 }
 
+
 /* login & register*/
-
-#register, #login, #change_password{
-    background: url(../img/poster/neutral.jpg) center/cover no-repeat;
-}
-
 
 #login-form input,
 #register-form input,
@@ -467,4 +477,20 @@ th:last-child {
     border-radius: 50%;
     cursor: pointer;
 }
+
+.table-header th {
+    background-color: #A78A7F; /* Đặt màu nền */
+  }
+
+.table-bordered {
+    border-collapse: collapse; /* Kết hợp các đường viền thành một đường duy nhất */
+    width: 100%; /* Đảm bảo bảng mở rộng ra toàn bộ không gian được cung cấp */
+}
+
+.table-bordered td, .table-bordered th {
+    border: 2px solid #A78A7F; /* Định dạng đường viền cho các ô */
+    padding: 8px; /* Khoảng cách bên trong của các ô */
+}
+
+
 

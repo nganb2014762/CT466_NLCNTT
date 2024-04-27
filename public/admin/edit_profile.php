@@ -181,7 +181,7 @@ if (isset($message)) {
 
                                             <div class="form-group">
                                                 <div class="flex-btn">
-                                                    <input type="submit" class="btn  btn-primary shadow-sm w-100"
+                                                    <input type="submit" class="btn   shadow-sm w-100" style="background-color: #0b6e4f; color:black"
                                                         value="Update profile" name="update_profile">
                                                 </div>
                                             </div>

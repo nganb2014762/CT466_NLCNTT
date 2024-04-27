@@ -110,49 +110,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
                         </table>
                     </div>
                     <div class="col-lg-6 mt-5">
-                    <div class="cart-total ">
-                        <table>
+                    <div class="cart-total">
+                        <table class="table-bordered" style="border: 2px solid #A78A7F;"> <!-- Thêm class table-bordered để áp dụng viền cho bảng -->
                             <tr>
-                                <td>Total Price</td>
-                                <td>$
-                                    <?= htmlspecialchars($fetch_orders['total_price']); ?>
-                                </td>
+                                <td style="color: #A78A7F; font-weight: bold;">Total Price</td>
+                                <td>$<?= htmlspecialchars($fetch_orders['total_price']); ?></td>
                             </tr>
                             <tr>
-                                <td>Placed On</td>
-                                <td>
-                                    <?= htmlspecialchars($fetch_orders['placed_on']); ?>
-                                </td>
+                                <td style="color: #A78A7F; font-weight: bold;">Placed On</td>
+                                <td><?= htmlspecialchars($fetch_orders['placed_on']); ?></td>
                             </tr>
 
                             <tr class="<?= ($fetch_orders['cancel_date'] === '0000-00-00') ? 'd-none' : ''; ?>">
-                                <td>Cancel Date</td>
-                                <td>
-                                    <?= htmlspecialchars($fetch_orders['cancel_date']); ?>
-                                </td>
+                                <td style="color: #A78A7F; font-weight: bold;">Cancel Date</td>
+                                <td><?= htmlspecialchars($fetch_orders['cancel_date']); ?></td>
                             </tr>
                             
                             <tr class="<?= ($fetch_orders['received_date'] === '0000-00-00') ? 'd-none' : ''; ?>">
-                                <td>Received Date</td>
-                                <td>
-                                    <?= htmlspecialchars($fetch_orders['received_date']); ?>
-                                </td>
+                                <td style="color: #A78A7F; font-weight: bold;">Received Date</td>
+                                <td><?= htmlspecialchars($fetch_orders['received_date']); ?></td>
                             </tr>
                             
                             <tr>
-                                <td>Payment Method</td>
-                                <td>
-                                    <?= htmlspecialchars($fetch_orders['method']); ?>
-                                </td>
+                                <td style="color: #A78A7F; font-weight: bold;">Payment Method</td>
+                                <td><?= htmlspecialchars($fetch_orders['method']); ?></td>
                             </tr>
                             <tr>
-                                <td>Payment Status</td>
+                                <td style="color: #A78A7F; font-weight: bold;">Payment Status</td>
                                 <td class="text-capitalize <?= ($fetch_orders['payment_status'] == 'completed') ? 'text-primary' : 'text-danger'; ?>">
                                     <?= htmlspecialchars($fetch_orders['payment_status']); ?>
                                 </td>
                             </tr>
                         </table>
                     </div>
+
                     <div class="checkout-container">
                         <tr>
                             <td>

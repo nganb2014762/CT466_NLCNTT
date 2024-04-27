@@ -238,7 +238,7 @@ if (isset($_GET['delete'])) {
                 var Id = button.data('id');
 
                 // Set the delete button link with productId
-                var deleteLink = 'list_customers.php?delete=' + Id;
+                var deleteLink = 'list_staffs.php?delete=' + Id;
                 $('#deleteLink').attr('href', deleteLink);
             });
         });

@@ -140,7 +140,7 @@ if (isset($_POST['order'])) {
     ;
     ?>
     <div class="row g-5" style="border: 3px solid #A78A7F;">
-      <div class="col-md-6 col-lg-5 order-md-last" >
+      <div class="col-md-6 col-lg-5 border-end"> <!-- Chuyển cột sang phải -->
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-primary ">Your bill</span>
         </h4>
@@ -193,14 +193,10 @@ if (isset($_POST['order'])) {
           </strong>
         </li>
 
-        <button class="w-100 btn btn-sm mt-3" name="Go to cart" type="submit">
-          <a href="my_order.php" class="text-decoration-none text-dark">
-            Order Status <i class="fas fa-arrow-right"></i>
-          </a>
-        </button>
+
       </div>
 
-      <div class="col-md-6 col-lg-7 border-end">
+      <div class="col-md-6 col-lg-7 order-md-last"> <!-- Chuyển cột sang trái -->
         <h4 class="mb-3 text-primary">Billing address</h4>
         <form class="needs-validation" validate method="POST">
           <div class="row g-3">
@@ -251,11 +247,17 @@ if (isset($_POST['order'])) {
               <button class=" btn btn-primary  mt-3 mb-5 <?= ($cart_grand_total > 1) ? '' : 'disabled'; ?>" name="order"
                 type="submit">Accept Payment</button>
             </div>
+            <button class="w-100 btn btn-sm mb-5" name="Go to cart" type="submit">
+              <a href="my_order.php" class="text-decoration-none text-dark">
+                Order Status <i class="fas fa-arrow-right"></i>
+              </a>
+            </button>
 
         </form>
       </div>
     </div>
   </main>
 </div>
+
 <?php
 include_once __DIR__ . '../../partials/footer.php';

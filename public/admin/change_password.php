@@ -113,7 +113,7 @@ if (isset($message)) {
                            </div>
                            <div class="form-group">
                               <div class="flex-btn">
-                                 <input type="submit" class="btn w-100 btn-primary" value="Update Password" name="update_password">
+                                 <input type="submit" class="btn w-100 " style="background-color: #0b6e4f; color:black" value="Update Password" name="update_password">
                               </div>
                            </div>
                         </form>
